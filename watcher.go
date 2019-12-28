@@ -117,7 +117,8 @@ func (w *Watcher) fdSelect() {
 	changed, err := doSelect(int(w.fds[0])+1, nil, nil, fdset, timeval)
 	if err != nil {
 		fmt.Printf("failed to call syscall.Select, %s", err)
-		os.Exit(1)
+		fmt.Println("[GPIO Watcher]", fdset)
+		return
 	}
 	if changed {
 		w.notify(fdset)
@@ -128,6 +129,7 @@ func (w *Watcher) addPin(p Pin) {
 	fd := p.f.Fd()
 	w.pins[fd] = p
 	heap.Push(&w.fds, fd)
+	fmt.Println("[GPIO Watcher]", w.fds.FdSet(), p.Number)
 }
 
 func (w *Watcher) removeFd(fd uintptr) {
