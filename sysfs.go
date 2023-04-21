@@ -69,9 +69,9 @@ func setDirection(p Pin, d direction, initialValue uint) {
 	case d == inDirection:
 		dir.Write([]byte("in"))
 	case d == outDirection && initialValue == 0:
-		dir.Write([]byte("low"))
+		dir.Write([]byte("out"))
 	case d == outDirection && initialValue == 1:
-		dir.Write([]byte("high"))
+		dir.Write([]byte("out"))
 	default:
 		panic(fmt.Sprintf("setDirection called with invalid direction or initialValue, %d, %d", d, initialValue))
 	}
